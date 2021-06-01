@@ -92,8 +92,8 @@ describe('Matches routes', () => {
 				location: faker.address.county(),
 				teamA: 'brazil',
 				teamB: 'brazil',
-				matchStart: '2021-06-01 11:47:30.120Z',
-				matchEnd: '2021-06-01 12:30:30.120Z',
+				matchStart: '2021-06-01 22:47:30.120Z',
+				matchEnd: '2021-06-01 23:30:30.120Z',
 				stage: 'final',
 			};
 
@@ -141,7 +141,9 @@ describe('Matches routes', () => {
 		test('should get an error when adding a match with same conditions already existing on another match', async () => {
 			await insertMatches([matchOne]);
 			const newMatch = {
-				...matchOne
+				...matchOne,
+				matchStart: '2021-06-01 13:00:30.120Z',
+				matchEnd: '2021-06-01 14:00:30.120Z',
 			};
 
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);

@@ -41,11 +41,24 @@ const matchSchema = mongoose.Schema(
 	{ timestamps: true }
 );
 
-matchSchema.statics.conditionsAllowed = async function () {
+matchSchema.statics.conditionsAllowed = async function (body) {
 	// date comparison was not working here, something related to datetime format.
 	// at robo 3t for mongo the query was going well
-	// db.getCollection('matches').find({ matchStart: { $gte: ISODate('2021-06-01 11:47:30.120Z'), $lt: ISODate('2021-06-01 12:30:30.120Z') }, matchEnd: { $gte: ISODate('2021-06-01 11:47:30.120Z'), $lt: ISODate('2021-06-01 12:30:30.120Z') }, location: 'aflitos', sport: 'soccer'})
-	return true;
+
+	const { matchStart, matchEnd, location, sport } = body;
+	const start = new Date(matchStart).toISOString();
+	const end = new Date(matchEnd).toISOString();
+
+	const matches = await this.find({
+		matchEnd: {
+			$gte: start,
+			$lt: end
+		},
+		location,
+		sport
+	});
+
+	return !matches.length > 0;
 };
 
 matchSchema.statics.isDurationValid = (matchStart, matchEnd, minDuration = 30) => {

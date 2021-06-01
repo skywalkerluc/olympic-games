@@ -33,7 +33,7 @@ const createMatch = async (matchBody) => {
 	}
 
 	if (!(await Match.conditionsAllowed(matchBody))) {
-		throw new ApiError(httpStatus.IM_A_TEAPOT, 'Selected conditions for a match not allowed');
+		throw new ApiError(httpStatus.BAD_REQUEST, 'Selected conditions for a match not allowed');
 	}
 
 	const match = await Match.create(matchBody);
