@@ -137,5 +137,19 @@ describe('Matches routes', () => {
 				message: 'Max number of matches scheduled to same location. Please choose another date or place',
 			});
 		});
+
+		test('should get an error when adding a match with same conditions already existing on another match', async () => {
+			await insertMatches([matchOne]);
+			const newMatch = {
+				...matchOne
+			};
+
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
+
+			expect(res.body).toEqual({
+				code: 400,
+				message: 'Selected conditions for a match not allowed'
+			});
+		});
 	});
 });
