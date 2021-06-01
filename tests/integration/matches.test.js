@@ -9,14 +9,10 @@ setupTestDB();
 
 describe('Matches routes', () => {
 	describe('GET /v1/match', () => {
-
 		test('should return 200 and apply default query param (none)', async () => {
 			await insertMatches([matchOne, matchTwo]);
 
-			const res = await request(app)
-				.get('/v1/match')
-				.send()
-				.expect(httpStatus.OK);
+			const res = await request(app).get('/v1/match').send().expect(httpStatus.OK);
 
 			expect(res.body).toHaveLength(2);
 		});
@@ -24,11 +20,7 @@ describe('Matches routes', () => {
 		test('should return NO Content to filter sport not existant in the base', async () => {
 			await insertMatches([matchOne, matchTwo]);
 
-			const res = await request(app)
-				.get('/v1/match')
-				.query({ sport: 'Basketball' })
-				.send()
-				.expect(httpStatus.NO_CONTENT);
+			const res = await request(app).get('/v1/match').query({ sport: 'Basketball' }).send().expect(httpStatus.NO_CONTENT);
 
 			expect(res.body).toEqual({});
 		});
@@ -46,11 +38,7 @@ describe('Matches routes', () => {
 
 			await insertMatches([matchOne, matchTwo, hockeyMatch]);
 
-			const res = await request(app)
-				.get('/v1/match')
-				.query({ sport: 'hockey' })
-				.send()
-				.expect(httpStatus.OK);
+			const res = await request(app).get('/v1/match').query({ sport: 'hockey' }).send().expect(httpStatus.OK);
 
 			expect(res.body).toHaveLength(1);
 			expect(res.body[0].sport).toEqual(hockeyMatch.sport);
@@ -66,18 +54,15 @@ describe('Matches routes', () => {
 				teamB: faker.address.country(),
 				matchStart: '2021-06-01 11:47:30.120Z',
 				matchEnd: '2021-06-01 12:30:30.120Z',
-				stage: 'groupstage'
+				stage: 'groupstage',
 			};
 
-			const res = await request(app)
-				.post('/v1/match')
-				.send(newMatch)
-				.expect(httpStatus.BAD_REQUEST);
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
 			expect(res.body).toBeDefined();
 			expect(res.body).toEqual({
 				code: 400,
-				message: "\"stage\" must be one of [eliminatórias, oitavas de final, quartas de final, semifinal, final]"
+				message: '"stage" must be one of [eliminatórias, oitavas de final, quartas de final, semifinal, final]',
 			});
 		});
 
@@ -89,18 +74,15 @@ describe('Matches routes', () => {
 				teamB: 'brazil',
 				matchStart: '2021-06-01 11:47:30.120Z',
 				matchEnd: '2021-06-01 12:30:30.120Z',
-				stage: 'eliminatórias'
+				stage: 'eliminatórias',
 			};
 
-			const res = await request(app)
-				.post('/v1/match')
-				.send(newMatch)
-				.expect(httpStatus.BAD_REQUEST);
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
 			expect(res.body).toBeDefined();
 			expect(res.body).toEqual({
 				code: 400,
-				message: "You can`t add same country representatives unless at Semifinals or Finals stage"
+				message: 'You can`t add same country representatives unless at Semifinals or Finals stage',
 			});
 		});
 
@@ -112,13 +94,10 @@ describe('Matches routes', () => {
 				teamB: 'brazil',
 				matchStart: '2021-06-01 11:47:30.120Z',
 				matchEnd: '2021-06-01 12:30:30.120Z',
-				stage: 'final'
+				stage: 'final',
 			};
 
-			const res = await request(app)
-				.post('/v1/match')
-				.send(newMatch)
-				.expect(httpStatus.CREATED);
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.CREATED);
 
 			expect(res.body).toBeDefined();
 			expect(res.body.code).toBeUndefined();
@@ -132,17 +111,14 @@ describe('Matches routes', () => {
 				teamB: 'russia',
 				matchStart: '2021-06-01 11:47:30.120Z',
 				matchEnd: '2021-06-01 11:58:30.120Z',
-				stage: 'final'
+				stage: 'final',
 			};
 
-			const res = await request(app)
-				.post('/v1/match')
-				.send(newMatch)
-				.expect(httpStatus.BAD_REQUEST);
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
-				expect(res.body).toEqual({
-					code: 400,
-					message: "A match must have at least 30 minutes defined as duration"
+			expect(res.body).toEqual({
+				code: 400,
+				message: 'A match must have at least 30 minutes defined as duration',
 			});
 		});
 
@@ -154,14 +130,11 @@ describe('Matches routes', () => {
 				matchEnd: '2021-06-01 17:58:30.120Z',
 			};
 
-			const res = await request(app)
-				.post('/v1/match')
-				.send(newMatch)
-				.expect(httpStatus.BAD_REQUEST);
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
-				expect(res.body).toEqual({
-					code: 400,
-					message: 'Max number of matches scheduled to same location. Please choose another date or place'
+			expect(res.body).toEqual({
+				code: 400,
+				message: 'Max number of matches scheduled to same location. Please choose another date or place',
 			});
 		});
 	});

@@ -25,13 +25,13 @@ const matchThree = {
 	...matchTwo,
 	matchStart: '2021-06-01 13:47:30.120Z',
 	matchEnd: '2021-06-01 14:47:30.120Z',
-}
+};
 
 const samePlaceMatch = {
 	...matchThree,
 	matchStart: '2021-06-01 19:47:30.120Z',
 	matchEnd: '2021-06-01 20:47:30.120Z',
-}
+};
 
 const insertMatches = async (matches) => {
 	await Match.insertMany(matches);

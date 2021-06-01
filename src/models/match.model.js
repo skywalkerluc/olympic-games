@@ -74,7 +74,6 @@ matchSchema.statics.maxDailyMatchesReached = async function (matchStart, locatio
 		location,
 	});
 
-	console.log(matches.length, 'length')
 	return matches.length >= maxMatches;
 };
 
