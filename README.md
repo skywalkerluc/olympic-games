@@ -28,7 +28,7 @@ npm install
 
 ### GET
 ```curl
-curl --location --request GET 'http://localhost:3000/v1/match?sport=soccer1' \
+curl --location --request GET 'http://localhost:3000/v1/match?sport=soccer' \
 --data-raw ''
 ```
 
