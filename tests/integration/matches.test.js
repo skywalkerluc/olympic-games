@@ -86,7 +86,7 @@ describe('Matches routes', () => {
 			});
 		});
 
-		test('should not get an Error when same teams` countries are being provided', async () => {
+		test('should not get an Error when same teams` countries are being provided at finals', async () => {
 			const newMatch = {
 				sport: 'tennis',
 				location: faker.address.county(),
@@ -95,6 +95,23 @@ describe('Matches routes', () => {
 				matchStart: '2021-06-01 22:47:30.120Z',
 				matchEnd: '2021-06-01 23:30:30.120Z',
 				stage: 'final',
+			};
+
+			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.CREATED);
+
+			expect(res.body).toBeDefined();
+			expect(res.body.code).toBeUndefined();
+		});
+
+		test('should not get an Error when same teams` countries are being provided at semifinals', async () => {
+			const newMatch = {
+				sport: 'tennis',
+				location: faker.address.county(),
+				teamA: 'brazil',
+				teamB: 'brazil',
+				matchStart: '2021-06-01 22:47:30.120Z',
+				matchEnd: '2021-06-01 23:30:30.120Z',
+				stage: 'semifinal',
 			};
 
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.CREATED);

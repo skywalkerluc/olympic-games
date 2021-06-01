@@ -75,7 +75,7 @@ matchSchema.statics.allowSameCountriesByStage = (teamA, teamB, stage) => {
 	return teamA === teamB ? isFinalStages(stage) : true;
 };
 
-matchSchema.statics.maxDailyMatchesReached = async function (matchStart, location, maxMatches = 4) {
+matchSchema.statics.maxDailyMatchesReached = async function (matchStart, location, maxMatches) {
 	const referenceDate = setTimeToZero(matchStart);
 	const nextDate = getDatePlusNDays(referenceDate, 1);
 
