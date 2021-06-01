@@ -59,7 +59,7 @@ matchSchema.statics.isDurationValid = (matchStart, matchEnd, minDuration = 30) =
 const isFinalStages = (stage) => stage === 'semifinal' || stage === 'final';
 
 matchSchema.statics.allowSameCountriesByStage = (teamA, teamB, stage) => {
-	return teamA === teamB ? isFinalStages(stage) : false;
+	return teamA === teamB ? isFinalStages(stage) : true;
 };
 
 matchSchema.statics.maxDailyMatchesReached = async function (matchStart, location, maxMatches = 4) {
@@ -74,6 +74,7 @@ matchSchema.statics.maxDailyMatchesReached = async function (matchStart, locatio
 		location,
 	});
 
+	console.log(matches.length, 'length')
 	return matches.length >= maxMatches;
 };
 
