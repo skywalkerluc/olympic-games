@@ -60,10 +60,8 @@ describe('Matches routes', () => {
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
 			expect(res.body).toBeDefined();
-			expect(res.body).toEqual({
-				code: 400,
-				message: '"stage" must be one of [eliminatórias, oitavas de final, quartas de final, semifinal, final]',
-			});
+			expect(res.body.code).toEqual(400);
+			expect(res.body.message).toEqual('"stage" must be one of [eliminatórias, oitavas de final, quartas de final, semifinal, final]');
 		});
 
 		test('should get an Error when same teams at early stages is being provided', async () => {
@@ -80,10 +78,8 @@ describe('Matches routes', () => {
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
 			expect(res.body).toBeDefined();
-			expect(res.body).toEqual({
-				code: 400,
-				message: 'You can`t add same country representatives unless at Semifinals or Finals stage',
-			});
+			expect(res.body.code).toEqual(400);
+			expect(res.body.message).toEqual('You can`t add same country representatives unless at Semifinals or Finals stage');
 		});
 
 		test('should not get an Error when same teams` countries are being provided at finals', async () => {
@@ -133,10 +129,8 @@ describe('Matches routes', () => {
 
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
-			expect(res.body).toEqual({
-				code: 400,
-				message: 'A match must have at least 30 minutes defined as duration',
-			});
+			expect(res.body.code).toEqual(400);
+			expect(res.body.message).toEqual('A match must have at least 30 minutes defined as duration');
 		});
 
 		test('should get an error when more than 4 matches are being scheduled for same day and location', async () => {
@@ -149,10 +143,8 @@ describe('Matches routes', () => {
 
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
-			expect(res.body).toEqual({
-				code: 400,
-				message: 'Max number of matches scheduled to same location. Please choose another date or place',
-			});
+			expect(res.body.code).toEqual(400);
+			expect(res.body.message).toEqual('Max number of matches scheduled to same location. Please choose another date or place');
 		});
 
 		test('should get an error when adding a match with same conditions already existing on another match', async () => {
@@ -165,10 +157,8 @@ describe('Matches routes', () => {
 
 			const res = await request(app).post('/v1/match').send(newMatch).expect(httpStatus.BAD_REQUEST);
 
-			expect(res.body).toEqual({
-				code: 400,
-				message: 'Selected conditions for a match not allowed'
-			});
+			expect(res.body.code).toEqual(400);
+			expect(res.body.message).toEqual('Selected conditions for a match not allowed');
 		});
 	});
 });
