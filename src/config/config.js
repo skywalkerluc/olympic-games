@@ -24,7 +24,7 @@ module.exports = {
 	mongoose: {
 		// don't know why, but my url was not being able to get from process.env, was always pointing to an old project url here.
 		// That's why I forced it here to investigate more
-		url: 'mongodb+srv://user2:olympicexample@cluster0.wcfbx.mongodb.net/olympic-games?retryWrites=true&w=majority',
+		url: process.env.URL,
 		options: {
 			useCreateIndex: true,
 			useNewUrlParser: true,
